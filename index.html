@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Halftoner - Punty</title>
+</head>
+<body>
+    <div class="hero">
+        <p id="app-name">Punty</p>
+        <h1 id="title">Halftoner</h1>
+    </div>
+    <div class="container">
+        <div id="preview-container">
+            <form id="upload-form">
+                <input type="file" id="image-input" accept="image/*" />
+            </form>
+            <img id="image-preview" src="" />
+            <div id="controls" style="display: none;">
+                <label for="density-slider">Density: <span id="density-value">100</span></label>
+                <input type="range" id="density-slider" min="20" max="200" value="100" step="5" />
+                <button type="button" id="reset-density">Reset Density</button>
+                <button type="button" id="save-image">Save Image</button>
+            </div>
+        </div>
+        <div id="canvas-container"></div>
+    </div>
+    <script src="libraries/p5.min.js"></script>
+    <script src="sketch.js"></script>
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const imagePreview = document.getElementById('image-preview');
+
+        imageInput.addEventListener('change', function () {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              imagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+    </script>
+</body>
+</html>
