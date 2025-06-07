@@ -78,7 +78,7 @@ body {
 
 /* Canvas */
 #canvas-container canvas {
-  border-radius: 12px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
 }
@@ -99,7 +99,7 @@ body {
 
 #density-slider {
   width: 100%;
-  accent-color: #00ff99;
+  accent-color: var(--slider-color, #0066ff);
   outline: none;
 }
 
@@ -118,4 +118,52 @@ body {
 #controls button:hover {
   background-color: #222;
   border-color: #666;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  #preview-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  #image-preview {
+    width: 40%;
+    max-width: 40%;
+  }
+
+  #controls {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .button-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .button-row button {
+    flex: 1;
+    padding: 10px 0;
+  }
+
+  #canvas-container {
+    width: 100%;
+  }
+
+  #canvas-container canvas {
+    width: 100% !important;
+    height: auto !important;
+    margin-top: 10px;
+  }
 }

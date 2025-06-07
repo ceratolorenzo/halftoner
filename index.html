@@ -19,10 +19,12 @@
             </form>
             <img id="image-preview" src="" />
             <div id="controls" style="display: none;">
-                <label for="density-slider">Density: <span id="density-value">100</span></label>
-                <input type="range" id="density-slider" min="20" max="200" value="100" step="5" />
-                <button type="button" id="reset-density">Reset Density</button>
-                <button type="button" id="save-image">Save Image</button>
+                <label for="density-slider">Density: <span id="density-value">60</span></label>
+                <input type="range" id="density-slider" min="20" max="200" value="60" step="5" />
+                
+                <div class="button-row">
+                    <button type="button" id="save-image" class="save-button">Download</button>
+                </div>
             </div>
         </div>
         <div id="canvas-container"></div>

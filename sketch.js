@@ -1,7 +1,7 @@
 let img;
 let halftonedImg;
 let canvas;
-let density = 100;
+let density = 60;
 let defaultImageLoaded = false;
 
 function setup() {
@@ -10,12 +10,13 @@ function setup() {
     noLoop();
 
     // Load default image
-    loadImage('napoleone.avif', (loadedImg) => {
+    let defaultImageSrc = 'nottestellata.webp';
+    loadImage(defaultImageSrc, (loadedImg) => {
         img = loadedImg;
         defaultImageLoaded = true;
 
         const preview = document.getElementById('image-preview');
-        preview.src = 'napoleone.avif';
+        preview.src = defaultImageSrc;
 
         preview.onload = () => {
             resizeCanvas(img.width, img.height);
@@ -24,6 +25,9 @@ function setup() {
 
             // Show controls
             document.getElementById('controls').style.display = 'flex';
+            
+            // Slider color
+            setSliderColorFromImage(img);
         };
     });
 }
@@ -108,8 +112,8 @@ document.getElementById('image-input').addEventListener('change', function () {
                     halftonedImg = halftone(img);
                     redraw();
 
-                    // Show controls
                     document.getElementById('controls').style.display = 'flex';
+                    setSliderColorFromImage(img);
                 };
             });
         };
@@ -146,3 +150,59 @@ document.getElementById('save-image').addEventListener('click', () => {
         save(halftonedImg, 'halftoned.png');
     }
 });
+
+// Slider color
+function setSliderColorFromImage(image) {
+    image.loadPixels();
+    let r = 0, g = 0, b = 0, count = 0;
+
+    for (let y = 0; y < image.height; y += 10) {
+        for (let x = 0; x < image.width; x += 10) {
+            const i = (x + y * image.width) * 4;
+            r += image.pixels[i];
+            g += image.pixels[i + 1];
+            b += image.pixels[i + 2];
+            count++;
+        }
+    }
+
+    r = Math.round(r / count);
+    g = Math.round(g / count);
+    b = Math.round(b / count);
+
+    const hsl = rgbToHSL(r, g, b);
+
+    // Saturation set to 100%, keep H
+    const colorString = `hsl(${Math.round(hsl.h)}, 100%, 50%)`;
+
+    const slider = document.getElementById('density-slider');
+    slider.style.setProperty('--slider-color', colorString);
+}
+
+function rgbToHSL(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = 0; // achromatic
+    } else {
+        const d = max - min;
+        switch (max) {
+            case r:
+                h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
+                break;
+            case g:
+                h = ((b - r) / d + 2) * 60;
+                break;
+            case b:
+                h = ((r - g) / d + 4) * 60;
+                break;
+        }
+    }
+
+    return { h, l: l * 100 };
+}
