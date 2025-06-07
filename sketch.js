@@ -147,7 +147,7 @@ document.getElementById('reset-density').addEventListener('click', () => {
 // Save
 document.getElementById('save-image').addEventListener('click', () => {
     if (halftonedImg) {
-        save(halftonedImg, 'halftoned.png');
+        save(halftonedImg, 'puntified.png');
     }
 });
 
